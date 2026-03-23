@@ -34,40 +34,12 @@ Finally, the node uniformly publishes all motor states to `/motor_states`, provi
 
 ### Currently supported interfaces
 
-- **Hardware Interface**: CAN-based motor control and IMU sensor interface
+- **Hardware Interface**: CAN-based motor control and sensor interface
 - **Sensor Fusion**: Time-synchronization of sensor data
 - **Trajectory Recording/Replay**
 
-## System Architecture and Communication Flow
-
-The system follows a layered approach:
-- **Hardware Interface() Layer**: Interacts directly with sensors and actuators
-- **Data Processing Layer**: Handles sensor fusion and synchronization
-- **Control Layer**: Generates motion commands through RL or manual input
-- **System Management Layer**: Handles safety, monitoring, and state transitions
-
-### Node Interactions
-
-1. The **IMU Node** and **CAN Bus Node** interface with physical hardware and publish sensor data.
-2. The **Sensor Fusion Node** combines this data into time-synchronized `AlignedSensorData` messages.
-3. The **RL Node** uses this synchronized data to generate joint commands based on learned policies.
-4. The **USB Command Node** provides manual control through a joystick interface.
-5. The **Processing Node** combines, validates, and constraints commands before sending to motors.
-6. The **Safety Node** continuously monitors sensors and can trigger emergency stops.
-7. The **Monitor Node** provides diagnostics and system health information.
-8. The **State Manager Node** coordinates the overall robot state and mode transitions.
-
 ### Key Message Types
-
 - **sensor_msgs/JointState**: Used for motor commands and state
-- **sensor_msgs/Imu**: Raw IMU data
-- **dodo_msgs/AlignedSensorData**: Time-synchronized sensor information
-- **std_msgs/Bool**: Used for emergency stop signals
-- **std_msgs/String**: Used for robot state information
-- **std_msgs/Int32**: Used for directional commands
-- **diagnostic_msgs/DiagnosticArray**: System diagnostics and health information
-
-**PlantUML source code for the architecture diagram is available in `architecture.puml`.**
 
 ## Getting Started
 
@@ -99,9 +71,39 @@ ros2 launch dodo_canbus canbus_node.launch.py
 #ros2 run dodo_canbus canbus_node --ros-args --log-level rcl:=info --log-level multi_motor_control_node:=debug
 ```
 
+## Before you send topic messages, following need to be done:
+- [] Safety limitations! After a forced power cycle,Odrive *loses* its position data and treats the position upon power-up as the 0 position. Therefore, be careful with q max and q min! Alternatively, a solution may be found in the future. For example, try using Odrive’s absolute position mode (I tried this but was unsuccessful).
+- [] DM Motors doesn't have the issues above, but STILL please *update* the actual limitations in the following parameters in `canbus_node.launch.py`
+  -- `joint_q_mins`
+  -- `joint_q_maxs`
 
-## Common Issues & Fixes
-
+### Send/Read Topic status:
+Example:
+```bash
+# Print motor states
+  ros2 topic echo /motor_states
+# Disable all motors
+  ros2 topic pub /motor_commands sensor_msgs/msg/JointState "{
+    name:['can0:1','can0:2','can0:5','can0:6','can1:3','can1:4','can1:7','can1:8'],
+    position:[],
+    velocity:[],
+    effort:[]
+}"
+# position control
+ros2 topic pub /motor_commands sensor_msgs/msg/JointState "{
+    name:['can0:6','can0:5','can0:2','can0:1','can1:8','can1:7','can1:4','can1:3'],
+    position:[-1, 0, 1, 0, 6, -12, -6, 12],
+    velocity:[],
+    effort:[]
+}"
+# torque control
+ros2 topic pub /motor_commands sensor_msgs/msg/JointState "{
+    name:['can0:6','can0:5','can0:2','can0:1','can1:8','can1:7','can1:4','can1:3'],
+    position:[],
+    velocity:[],
+    effort:[-0.01, 0, 0.01, 0, 0.01, 0, -0.01, 0.01]
+}"
+```
 
 ## Contributing
 
