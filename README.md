@@ -51,7 +51,15 @@ Finally, the node uniformly publishes all motor states to `/motor_states`, provi
 - **Ubuntu 22.04** (or later)
 - **Python 3.10+**
 - CAN interface (for hardware control)
+- 
+## Before you start:
+- Safety limitations! After a forced power cycle, Odrive **loses** its position data and treats the position upon power-up as the zero position. Therefore, be careful with q max and q min! Alternatively, a solution may be found in the future. For example, try using Odrive’s absolute position mode (I tried this but was unsuccessful).
+- DM Motors doesn't have the issues above, but STILL please **update** the actual limitations in the following parameters in `canbus_node.launch.py`
 
+  -- `joint_q_mins`
+
+  -- `joint_q_maxs`
+  
 ## Build/Run Instructions
 
 ```bash
@@ -72,14 +80,6 @@ ros2 launch dodo_canbus canbus_node.launch.py
 # Debug:
 #ros2 run dodo_canbus canbus_node --ros-args --log-level rcl:=info --log-level multi_motor_control_node:=debug
 ```
-
-## Before you send topic messages, following need to be done:
-- Safety limitations! After a forced power cycle, Odrive **loses** its position data and treats the position upon power-up as the zero position. Therefore, be careful with q max and q min! Alternatively, a solution may be found in the future. For example, try using Odrive’s absolute position mode (I tried this but was unsuccessful).
-- DM Motors doesn't have the issues above, but STILL please **update** the actual limitations in the following parameters in `canbus_node.launch.py`
-
-  -- `joint_q_mins`
-
-  -- `joint_q_maxs`
 
 ### Send/Read Topic status:
 Example:
