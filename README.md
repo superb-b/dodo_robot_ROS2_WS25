@@ -60,6 +60,7 @@ Finally, the node uniformly publishes all motor states to `/motor_states`, provi
   -- `joint_q_mins`
 
   -- `joint_q_maxs`
+- Proofread the launch parameters, and dont connect odrive and DM motors via the same USB adapter. Refreshing DM states seems to influence the odrive drivers(it happened, maybe bug, but no bother).
 - Always hold the emergency stop.
   
 ## Build/Run Instructions
