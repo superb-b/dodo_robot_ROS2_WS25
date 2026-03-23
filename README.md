@@ -9,12 +9,14 @@ The Bipedal Robot Locomotion Task is a team consisting of course students and mo
 Thanks for the support and supervision from:  
 - Dr. Hoan Quang Le  
 
-Contributor of the code for this semester
+Contributor of the code for this semester: 
 Bo Song
 
 Based on the following repos:
 [ros_odrive](https://github.com/odriverobotics/ros_odrive)
+
 [dodo_robot_ROS2(Previous semesters)](https://github.com/Thisanwerss/dodo_robot_ROS2)
+
 [Damiao Driver(Python)](https://wiki.seeedstudio.com/damiao_series/)
 
 ---
@@ -72,9 +74,11 @@ ros2 launch dodo_canbus canbus_node.launch.py
 ```
 
 ## Before you send topic messages, following need to be done:
-- [] Safety limitations! After a forced power cycle,Odrive *loses* its position data and treats the position upon power-up as the 0 position. Therefore, be careful with q max and q min! Alternatively, a solution may be found in the future. For example, try using Odrive’s absolute position mode (I tried this but was unsuccessful).
-- [] DM Motors doesn't have the issues above, but STILL please *update* the actual limitations in the following parameters in `canbus_node.launch.py`
+- Safety limitations! After a forced power cycle, Odrive **loses** its position data and treats the position upon power-up as the zero position. Therefore, be careful with q max and q min! Alternatively, a solution may be found in the future. For example, try using Odrive’s absolute position mode (I tried this but was unsuccessful).
+- DM Motors doesn't have the issues above, but STILL please **update** the actual limitations in the following parameters in `canbus_node.launch.py`
+
   -- `joint_q_mins`
+
   -- `joint_q_maxs`
 
 ### Send/Read Topic status:
