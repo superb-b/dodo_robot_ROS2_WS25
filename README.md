@@ -51,7 +51,7 @@ Finally, the node uniformly publishes all motor states to `/motor_states`, provi
 - **Ubuntu 22.04** (or later)
 - **Python 3.10+**
 - CAN interface (for hardware control)
-- 
+
 ## Before you start:
 - Test run and record the physical limitations before you sending the topic messages(you can really easily to damage this robot).
 - Safety limitations! After a forced power cycle, Odrive **loses** its position data and treats the position upon power-up as the zero position. Therefore, please tape or mark the physical zero position, then power on. Please be careful with q max and q min! Alternatively, a solution may be found in the future. For example, try using Odrive’s absolute position mode (I tried this but was unsuccessful).
