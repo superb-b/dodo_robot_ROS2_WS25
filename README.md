@@ -60,6 +60,7 @@ Finally, the node uniformly publishes all motor states to `/motor_states`, provi
   -- `joint_q_mins`
 
   -- `joint_q_maxs`
+- Always hold the emergency stop.
   
 ## Build/Run Instructions
 
