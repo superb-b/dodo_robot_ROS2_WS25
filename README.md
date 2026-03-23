@@ -53,7 +53,8 @@ Finally, the node uniformly publishes all motor states to `/motor_states`, provi
 - CAN interface (for hardware control)
 - 
 ## Before you start:
-- Safety limitations! After a forced power cycle, Odrive **loses** its position data and treats the position upon power-up as the zero position. Therefore, be careful with q max and q min! Alternatively, a solution may be found in the future. For example, try using Odrive’s absolute position mode (I tried this but was unsuccessful).
+- Test run and record the physical limitations before you sending the topic messages(you can really easily to damage this robot).
+- Safety limitations! After a forced power cycle, Odrive **loses** its position data and treats the position upon power-up as the zero position. Therefore, please tape or mark the physical zero position, then power on. Please be careful with q max and q min! Alternatively, a solution may be found in the future. For example, try using Odrive’s absolute position mode (I tried this but was unsuccessful).
 - DM Motors doesn't have the issues above, but STILL please **update** the actual limitations in the following parameters in `canbus_node.launch.py`
 
   -- `joint_q_mins`
