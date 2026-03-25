@@ -12,6 +12,10 @@ Thanks for the support and supervision from:
 Contributor of the code for this semester: 
 Bo Song
 
+Team member:
+Joyce Huan Ning Eng,
+Ezaan Mirza
+
 Based on the following repos:
 [ros_odrive](https://github.com/odriverobotics/ros_odrive)
 
